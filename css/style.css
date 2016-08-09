@@ -32,6 +32,7 @@ body {
   font-family: 'Indie Flower', cursive;
   font-size: 5em;
   text-transform: uppercase;
+  cursor: pointer;
 }
 .cells-A {
   border-right: 1px solid;
