@@ -1,0 +1,28 @@
+/**{
+  border: solid 2px red;
+}*/
+body {
+  background-color: #3E505B;
+}
+#page{
+  font-family: 'Poiret One', cursive;
+  margin: 0 auto;
+  text-align: center;
+  width: 510px;
+  color: #F8F32B;
+}
+.title{
+  text-transform: uppercase;
+  font-size: 2em;
+  padding-bottom: 5px;
+}
+.game{
+  width: 500px;
+  align-items: center;
+}
+.game div{
+  width: 166.666667px;
+  height: 166.666667px;
+  outline: 1px solid;
+  float: left;
+}
