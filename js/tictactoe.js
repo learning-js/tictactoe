@@ -19,7 +19,7 @@ $(document).ready(function(){
     }
   }
 
-  ////// WHAT HAPPENS WHEN A CELL IS SELECTED //////
+  ////// EVENTS WHEN A CELL IS CLICKED ON //////
 
   $("#cell1").click(function(){
     fillCell("#cell1");
