@@ -6,7 +6,7 @@ body {
 }
 #page{
   font-family: 'Poiret One', cursive;
-  margin: 0 auto;
+  margin: 5% auto;
   text-align: center;
   width: 510px;
   color: #F8F32B;
@@ -15,14 +15,24 @@ body {
   text-transform: uppercase;
   font-size: 2em;
   padding-bottom: 5px;
+  margin-bottom: 3%;
 }
 .game{
-  width: 500px;
+  width: 505px;
   align-items: center;
 }
 .game div{
   width: 166.666667px;
   height: 166.666667px;
-  outline: 1px solid;
   float: left;
+}
+.cells-A {
+  border-right: 1px solid;
+  border-bottom: 1px solid;
+}
+.cells-B {
+  border-bottom: 1px solid;
+}
+.cells-C {
+  border-right: 1px solid;
 }
