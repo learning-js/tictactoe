@@ -26,6 +26,12 @@ body {
   height: 166.666667px;
   float: left;
 }
+.cell{
+  height: 164px;
+  line-height: 164px;
+  font-family: 'Indie Flower', cursive;
+  font-size: 5em;
+}
 .cells-A {
   border-right: 1px solid;
   border-bottom: 1px solid;
