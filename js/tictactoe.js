@@ -2,8 +2,9 @@ $(document).ready(function(){
   var xSign = false;
   var gameSigns = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
 
-  ////// FUNCTIONS //////
+  ////////////////// FUNCTIONS ///////////////////
 
+  ////// Keep each sign in its place inside the array //////
   function fillArray (position, sign){
     switch (position){
       case "#cell1":
@@ -36,6 +37,7 @@ $(document).ready(function(){
     }
   }
 
+  ////// fill the cell with its sign //////
   function fillCell (cell){
     if($.trim($(cell).html())==""){
       if (xSign){
@@ -56,10 +58,35 @@ $(document).ready(function(){
     }
   }
 
-  ////// EVENTS WHEN A CELL IS CLICKED ON //////
+  ///////// function to confirm if there is 3 in a row ///////////
+  function threeInaRow (){
+    for(var i = 0; i < gameSigns.length; i++){
+      var rows;
+      console.log("entro en threeInaRow");
+
+      if(gameSigns[i][0] !== 0){
+        rows = gameSigns[i];
+        console.log("entro en el if" + rows);
+        console.log(rows[0] + " es igual " + rows[1]);
+        if(rows[0] == rows[1]){
+          console.log("el primero y el segundo son iguales");
+
+          if(rows[0] == rows[2]){
+            console.log("el primero y el tercero son iguales");
+            console.log("3 en raya");
+          }
+
+        }
+
+      }
+    }
+  }
+
+  ////////////// EVENTS WHEN A CELL IS CLICKED ON ///////////////
 
   $("#cell1").click(function(){
     fillCell("#cell1");
+    threeInaRow();
   })
 
   $("#cell2").click(function(){
