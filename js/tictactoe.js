@@ -86,6 +86,25 @@ $(document).ready(function() {
         rows = [];
       }
     }*/
+    var column1 = [gameSigns[0][0], gameSigns[1][0], gameSigns[2][0]];
+    var column2 = [gameSigns[0][1], gameSigns[1][1], gameSigns[2][1]];
+    var column3 = [gameSigns[0][2], gameSigns[1][2], gameSigns[2][2]];
+    if(column1[0] == column1[1] && column1[0] == column1[2]) {
+      console.log("columna 1");
+      return column1;
+    }
+    else {
+      if(column2[0] == column2[1] && column2[0] == column2[2]) {
+        console.log("columna 2");
+        return column2;
+      }
+      else {
+        if(column3[0] == column3[1] && column3[0] == column3[2]) {
+          console.log("columna 3");
+          return column3;
+        }
+      }
+    }
   }
 
   ////////////// EVENTS WHEN A CELL IS CLICKED ON ///////////////
