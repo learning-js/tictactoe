@@ -43,13 +43,11 @@ $(document).ready(function() {
       if (xSign) {
         $(cell).html("x");
         fillArray(cell, "x");
-        console.log(gameSigns);
         xSign = false;
       }
       else {
         $(cell).html("o");
         fillArray(cell, "o");
-        console.log(gameSigns);
         xSign = true;
       }
     }
@@ -62,10 +60,32 @@ $(document).ready(function() {
       if (gameSigns[i][0] !== 0) {
         rows = gameSigns[i];
         if (rows[0] == rows[1] && rows[0] == rows[2]) {
+          console.log("aquí lo hace bien");
           return i;
         }
       }
     }
+  }
+  function verticalInaRow() {
+    ////brujería de javascript o una adrianada
+    /*var rows = [];
+    for(var i = 0; i < gameSigns.length; i++) {
+      for(var j = 0; j < gameSigns.length; j++) {
+        console.log("meto a rows: " + gameSigns[j][j]);
+        rows.push([gameSigns[j][i]]);
+      }
+      console.log("rows vale esto " + rows);
+      console.log(rows[0]==rows[1]);
+      console.log(rows[1]==rows[2]);
+      if(rows[0] === rows[1] && rows[0] === rows[2]) {
+        console.log("son iguales");
+        rows = [];
+        return i;
+      }
+      else {
+        rows = [];
+      }
+    }*/
   }
 
   ////////////// EVENTS WHEN A CELL IS CLICKED ON ///////////////
@@ -73,6 +93,7 @@ $(document).ready(function() {
   $("#cell1").click(function() {
     fillCell("#cell1");
     horizontalInaRow();
+    verticalInaRow();
   });
 
   $("#cell2").click(function() {
