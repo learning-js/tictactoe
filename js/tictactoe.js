@@ -1,7 +1,8 @@
 $(document).ready(function() {
   var xSign = false;
   var gameSigns = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
-  var result = 0;
+  var result;
+  console.log(result);
 
   ////////////////// FUNCTIONS ///////////////////
 
@@ -55,7 +56,8 @@ $(document).ready(function() {
     checkGame();
   }
 
-  ///////// function to confirm if there is 3 in a row ///////////
+  ///////// functions to confirm if there is 3 in a row ///////////
+  ///// HORIZONTAL ///////
   function horizontalInaRow() {
     var rows;
     for(var i = 0; i < gameSigns.length; i++) {
@@ -69,6 +71,7 @@ $(document).ready(function() {
     }
   }
 
+  ///// VERTICAL ///////
   function verticalInaRow() {
     ////brujería de javascript o una adrianada
     /*var rows = [];
@@ -110,6 +113,7 @@ $(document).ready(function() {
     }
   }
 
+  ///// DIAGONAL ///////
   function diagonalInaRow() {
     var diagonal1 = [gameSigns[0][0], gameSigns[1][1], gameSigns[2][2]];
     var diagonal2 = [gameSigns[0][2], gameSigns[1][1], gameSigns[2][0]];
@@ -125,6 +129,7 @@ $(document).ready(function() {
     }
   }
 
+  ///// Check if a function returns a coincidence ///////
   function checkGame() {
     if(horizontalInaRow() !== undefined) {
       result = horizontalInaRow();
@@ -138,13 +143,16 @@ $(document).ready(function() {
           result = diagonalInaRow();
         }
       }
-    };
+    }
   }
 
   ////////////// EVENTS WHEN A CELL IS CLICKED ON ///////////////
 
   $("#cell1").click(function() {
     fillCell("#cell1");
+    if(result !== undefined) {
+      $("#cell1, #cell2, #cell3").css("font-size", "6em");
+    };
   });
 
   $("#cell2").click(function() {
