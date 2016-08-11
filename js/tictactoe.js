@@ -1,6 +1,7 @@
 $(document).ready(function() {
   var xSign = false;
   var gameSigns = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+  var result = 0;
 
   ////////////////// FUNCTIONS ///////////////////
 
@@ -61,7 +62,7 @@ $(document).ready(function() {
       if (gameSigns[i][0] !== 0) {
         rows = gameSigns[i];
         if (rows[0] == rows[1] && rows[0] == rows[2]) {
-          console.log("aquí lo hace bien");
+          console.log("tres en raya en la línea " + i)
           return i;
         }
       }
@@ -93,17 +94,17 @@ $(document).ready(function() {
     var column3 = [gameSigns[0][2], gameSigns[1][2], gameSigns[2][2]];
     if(column1[0] !== 0 && column1[0] == column1[1] && column1[0] == column1[2]) {
       console.log("columna 1");
-      return column1;
+      return 4;
     }
     else {
       if(column2[0] !== 0 && column2[0] == column2[1] && column2[0] == column2[2]) {
         console.log("columna 2");
-        return column2;
+        return 5;
       }
       else {
         if(column3[0] !== 0 && column3[0] == column3[1] && column3[0] == column3[2]) {
           console.log("columna 3");
-          return column3;
+          return 6;
         }
       }
     }
@@ -114,20 +115,30 @@ $(document).ready(function() {
     var diagonal2 = [gameSigns[0][2], gameSigns[1][1], gameSigns[2][0]];
     if(diagonal1[0] !== 0 && diagonal1[0] == diagonal1[1] && diagonal1[0] == diagonal1[2]) {
       console.log("diagonal1");
-      return diagonal1;
+      return 7;
     }
     else {
       if(diagonal2[0] !== 0 && diagonal2[0] == diagonal2[1] && diagonal2[0] == diagonal2[2]){
         console.log("diagonal2");
-        return diagonal2;
+        return 8;
       }
     }
   }
 
   function checkGame() {
-    horizontalInaRow();
-    verticalInaRow();
-    diagonalInaRow();
+    if(horizontalInaRow() !== undefined) {
+      result = horizontalInaRow();
+    }
+    else {
+      if(verticalInaRow() !== undefined) {
+        result = verticalInaRow();
+      }
+      else {
+        if(diagonalInaRow() !== undefined) {
+          result = diagonalInaRow();
+        }
+      }
+    };
   }
 
   ////////////// EVENTS WHEN A CELL IS CLICKED ON ///////////////
