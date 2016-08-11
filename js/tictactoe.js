@@ -66,6 +66,7 @@ $(document).ready(function() {
       }
     }
   }
+
   function verticalInaRow() {
     ////brujería de javascript o una adrianada
     /*var rows = [];
@@ -107,12 +108,28 @@ $(document).ready(function() {
     }
   }
 
+  function diagonalInaRow() {
+    var diagonal1 = [gameSigns[0][0], gameSigns[1][1], gameSigns[2][2]];
+    var diagonal2 = [gameSigns[0][2], gameSigns[1][1], gameSigns[2][0]];
+    if(diagonal1[0] == diagonal1[1] && diagonal1[0] == diagonal1[2]) {
+      console.log("diagonal1");
+      return diagonal1;
+    }
+    else {
+      if(diagonal2[0] == diagonal2[1] && diagonal2[0] == diagonal2[2]){
+        console.log("diagonal2");
+        return diagonal2;
+      }
+    }
+  }
+
   ////////////// EVENTS WHEN A CELL IS CLICKED ON ///////////////
 
   $("#cell1").click(function() {
     fillCell("#cell1");
     horizontalInaRow();
     verticalInaRow();
+    diagonalInaRow();
   });
 
   $("#cell2").click(function() {
