@@ -51,6 +51,7 @@ $(document).ready(function() {
         xSign = true;
       }
     }
+    checkGame();
   }
 
   ///////// function to confirm if there is 3 in a row ///////////
@@ -90,17 +91,17 @@ $(document).ready(function() {
     var column1 = [gameSigns[0][0], gameSigns[1][0], gameSigns[2][0]];
     var column2 = [gameSigns[0][1], gameSigns[1][1], gameSigns[2][1]];
     var column3 = [gameSigns[0][2], gameSigns[1][2], gameSigns[2][2]];
-    if(column1[0] == column1[1] && column1[0] == column1[2]) {
+    if(column1[0] !== 0 && column1[0] == column1[1] && column1[0] == column1[2]) {
       console.log("columna 1");
       return column1;
     }
     else {
-      if(column2[0] == column2[1] && column2[0] == column2[2]) {
+      if(column2[0] !== 0 && column2[0] == column2[1] && column2[0] == column2[2]) {
         console.log("columna 2");
         return column2;
       }
       else {
-        if(column3[0] == column3[1] && column3[0] == column3[2]) {
+        if(column3[0] !== 0 && column3[0] == column3[1] && column3[0] == column3[2]) {
           console.log("columna 3");
           return column3;
         }
@@ -111,25 +112,28 @@ $(document).ready(function() {
   function diagonalInaRow() {
     var diagonal1 = [gameSigns[0][0], gameSigns[1][1], gameSigns[2][2]];
     var diagonal2 = [gameSigns[0][2], gameSigns[1][1], gameSigns[2][0]];
-    if(diagonal1[0] == diagonal1[1] && diagonal1[0] == diagonal1[2]) {
+    if(diagonal1[0] !== 0 && diagonal1[0] == diagonal1[1] && diagonal1[0] == diagonal1[2]) {
       console.log("diagonal1");
       return diagonal1;
     }
     else {
-      if(diagonal2[0] == diagonal2[1] && diagonal2[0] == diagonal2[2]){
+      if(diagonal2[0] !== 0 && diagonal2[0] == diagonal2[1] && diagonal2[0] == diagonal2[2]){
         console.log("diagonal2");
         return diagonal2;
       }
     }
   }
 
+  function checkGame() {
+    horizontalInaRow();
+    verticalInaRow();
+    diagonalInaRow();
+  }
+
   ////////////// EVENTS WHEN A CELL IS CLICKED ON ///////////////
 
   $("#cell1").click(function() {
     fillCell("#cell1");
-    horizontalInaRow();
-    verticalInaRow();
-    diagonalInaRow();
   });
 
   $("#cell2").click(function() {
