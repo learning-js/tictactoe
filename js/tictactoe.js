@@ -41,19 +41,21 @@ $(document).ready(function() {
 
   ////// fill the cell with its sign //////
   function fillCell(cell) {
-    if($.trim($(cell).html()) == "") {
-      if (xSign) {
-        $(cell).html("x");
-        fillArray(cell, "x");
-        xSign = false;
+    if(result == undefined) {
+      if($.trim($(cell).html()) == "") {
+        if (xSign) {
+          $(cell).html("x");
+          fillArray(cell, "x");
+          xSign = false;
+        }
+        else {
+          $(cell).html("o");
+          fillArray(cell, "o");
+          xSign = true;
+        }
       }
-      else {
-        $(cell).html("o");
-        fillArray(cell, "o");
-        xSign = true;
-      }
+      checkGame();
     }
-    checkGame();
   }
 
   ///////// functions to confirm if there is 3 in a row ///////////
@@ -148,44 +150,42 @@ $(document).ready(function() {
 
   ////////////// EVENTS WHEN A CELL IS CLICKED ON ///////////////
 
-  $("#cell1").click(function() {
-    fillCell("#cell1");
-    if(result !== undefined) {
-      $("#cell1, #cell2, #cell3").css("font-size", "6em");
-    };
-  });
 
-  $("#cell2").click(function() {
-    fillCell("#cell2");
-  });
+    $("#cell1").click(function() {
+      fillCell("#cell1");
+    });
 
-  $("#cell3").click(function() {
-    fillCell("#cell3");
-  });
+    $("#cell2").click(function() {
+      fillCell("#cell2");
+    });
 
-  $("#cell4").click(function() {
-    fillCell("#cell4");
-  });
+    $("#cell3").click(function() {
+      fillCell("#cell3");
+    });
 
-  $("#cell5").click(function() {
-    fillCell("#cell5");
-  });
+    $("#cell4").click(function() {
+      fillCell("#cell4");
+    });
 
-  $("#cell6").click(function() {
-    fillCell("#cell6");
-  });
+    $("#cell5").click(function() {
+      fillCell("#cell5");
+    });
 
-  $("#cell7").click(function() {
-    fillCell("#cell7");
-  });
+    $("#cell6").click(function() {
+      fillCell("#cell6");
+    });
 
-  $("#cell8").click(function() {
-    fillCell("#cell8");
-  });
+    $("#cell7").click(function() {
+      fillCell("#cell7");
+    });
 
-  $("#cell9").click(function() {
-    fillCell("#cell9");
-  });
+    $("#cell8").click(function() {
+      fillCell("#cell8");
+    });
+
+    $("#cell9").click(function() {
+      fillCell("#cell9");
+    });
 
 
 });
