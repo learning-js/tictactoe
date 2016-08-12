@@ -42,6 +42,7 @@ $(document).ready(function() {
   ////// fill the cell with its sign //////
   function fillCell(cell) {
     if(result == undefined) {
+
       if($.trim($(cell).html()) == "") {
         if (xSign) {
           $(cell).html("x");
@@ -55,6 +56,7 @@ $(document).ready(function() {
         }
       }
       checkGame();
+
     }
   }
 
@@ -99,17 +101,15 @@ $(document).ready(function() {
     var column3 = [gameSigns[0][2], gameSigns[1][2], gameSigns[2][2]];
     if(column1[0] !== 0 && column1[0] == column1[1] && column1[0] == column1[2]) {
       console.log("columna 1");
-      return 4;
+      return 3;
     }
     else {
       if(column2[0] !== 0 && column2[0] == column2[1] && column2[0] == column2[2]) {
-        console.log("columna 2");
-        return 5;
+        return 4;
       }
       else {
         if(column3[0] !== 0 && column3[0] == column3[1] && column3[0] == column3[2]) {
-          console.log("columna 3");
-          return 6;
+          return 5;
         }
       }
     }
@@ -121,12 +121,12 @@ $(document).ready(function() {
     var diagonal2 = [gameSigns[0][2], gameSigns[1][1], gameSigns[2][0]];
     if(diagonal1[0] !== 0 && diagonal1[0] == diagonal1[1] && diagonal1[0] == diagonal1[2]) {
       console.log("diagonal1");
-      return 7;
+      return 6;
     }
     else {
       if(diagonal2[0] !== 0 && diagonal2[0] == diagonal2[1] && diagonal2[0] == diagonal2[2]){
         console.log("diagonal2");
-        return 8;
+        return 7;
       }
     }
   }
@@ -144,6 +144,65 @@ $(document).ready(function() {
         if(diagonalInaRow() !== undefined) {
           result = diagonalInaRow();
         }
+      }
+    }
+    higlightRow();
+  }
+
+  ///// Higlight the row that finishes the game /////
+
+  function higlightRow() {
+    if(result !== undefined){
+      console.log("entro a resaltar");
+      switch(result) {
+        case 0:
+          $("#cell1, #cell2, #cell3").css({
+            "background-color": "#F8F32B",
+            "color": "#3E505B",
+            "font-size": "5em"
+          });
+        case 1:
+          $("#cell4, #cell5, #cell6").css({
+            "background-color": "#F8F32B",
+            "color": "#3E505B",
+            "font-size": "5em"
+          });
+        case 2:
+          $("#cell7, #cell8, #cell9").css({
+            "background-color": "#F8F32B",
+            "color": "#3E505B",
+            "font-size": "5em"
+          });
+        case 3:
+          $("#cell1, #cell4, #cell7").css({
+            "background-color": "#F8F32B",
+            "color": "#3E505B",
+            "font-size": "5em"
+          });
+        case 4:
+          $("#cell2, #cell5, #cell8").css({
+            "background-color": "#F8F32B",
+            "color": "#3E505B",
+            "font-size": "5em"
+          });
+        case 5:
+          $("#cell3, #cell6, #cell9").css({
+            "background-color": "#F8F32B",
+            "color": "#3E505B",
+            "font-size": "5em"
+          });
+        case 6:
+          $("#cell1, #cell5, #cell9").css({
+            "background-color": "#F8F32B",
+            "color": "#3E505B",
+            "font-size": "5em"
+          });
+        case 7:
+          $("#cell3, #cell5, #cell7").css({
+            "background-color": "#F8F32B",
+            "color": "#3E505B",
+            "font-size": "5em"
+          });
       }
     }
   }
