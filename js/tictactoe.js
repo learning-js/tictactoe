@@ -2,6 +2,7 @@ $(document).ready(function() {
   var xSign = false;
   var gameSigns = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
   var result;
+  var turns = 0;
 
   ////////////////// FUNCTIONS ///////////////////
 
@@ -57,6 +58,14 @@ $(document).ready(function() {
       checkGame();
 
     }
+  }
+
+  ///////// IA ////////////
+  if(turns == 0){
+    var startPositions = ["cell1", "cell3", "cell5", "cell7", "cell9"];
+    var randomPlace = "#" + startPositions[Math.floor(Math.random() * startPositions.length)];
+    console.log(startPositions, randomPlace);
+    $(randomPlace).html("x");
   }
 
   ///////// functions to confirm if there is 3 in a row ///////////
@@ -220,7 +229,6 @@ $(document).ready(function() {
 
   ////////////// EVENTS WHEN A CELL IS CLICKED ON ///////////////
 
-
     $("#cell1").click(function() {
       fillCell("#cell1");
     });
@@ -256,5 +264,6 @@ $(document).ready(function() {
     $("#cell9").click(function() {
       fillCell("#cell9");
     });
+
 
 });
