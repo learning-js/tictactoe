@@ -11,8 +11,20 @@ $(document).ready(function() {
   modal.style.display = "block";
   $(".btn").click(function() {
     user = $(this).attr("value");
-    console.log(user);
+    if(user == "x") {
+      machine = "o";
+    }
+    else {
+      machine = "x";
+    }
     modal.style.display = "none";
+    if(turns == 0){
+      var startPositions = ["cell1", "cell3", "cell5", "cell7", "cell9"];
+      var randomPlace = "#" + startPositions[Math.floor(Math.random() * startPositions.length)];
+      $(randomPlace).html(machine);
+      turns += 1;
+      fillArray(randomPlace, machine);
+    }
   })
 
   ////////////////// FUNCTIONS ///////////////////
@@ -70,16 +82,6 @@ $(document).ready(function() {
       checkGame();
 
     }
-  }
-
-  ///////// AI ////////////
-  if(turns == 0){
-    var startPositions = ["cell1", "cell3", "cell5", "cell7", "cell9"];
-    var randomPlace = "#" + startPositions[Math.floor(Math.random() * startPositions.length)];
-    console.log(startPositions, randomPlace);
-    $(randomPlace).html("x");
-    turns += 1;
-    fillArray(randomPlace, machine);
   }
 
   ///////// functions to confirm if there is 3 in a row ///////////
@@ -242,7 +244,7 @@ $(document).ready(function() {
   }
 
   ////////////// EVENTS WHEN A CELL IS CLICKED ON ///////////////
-  if(modal.style.display == "none") {
+  if(turns !== 0) {
 
     $("#cell1").click(function() {
       fillCell("#cell1");
