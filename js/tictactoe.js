@@ -67,7 +67,7 @@ $(document).ready(function() {
   function fillCell(cell) {
     if(result == undefined) {
       if($.trim($(cell).html()) == "") {
-          $(cell).html("x");
+          $(cell).html(user);
           fillArray(cell, user);
           xSign = false;
       }
