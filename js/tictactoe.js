@@ -2,9 +2,15 @@ $(document).ready(function() {
   var xSign = false;
   var gameSigns = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
   var result;
+  var user;
+  var machine;
   var turns = 0;
 
+  var modal = document.getElementById('myModal');
+  modal.style.display = "block";
+
   ////////////////// FUNCTIONS ///////////////////
+
 
   ////// Keep each sign in its place inside the array //////
   function fillArray(position, sign) {
@@ -60,12 +66,14 @@ $(document).ready(function() {
     }
   }
 
-  ///////// IA ////////////
+  ///////// AI ////////////
   if(turns == 0){
     var startPositions = ["cell1", "cell3", "cell5", "cell7", "cell9"];
     var randomPlace = "#" + startPositions[Math.floor(Math.random() * startPositions.length)];
     console.log(startPositions, randomPlace);
     $(randomPlace).html("x");
+    turns += 1;
+    fillArray(randomPlace, machine);
   }
 
   ///////// functions to confirm if there is 3 in a row ///////////
@@ -228,6 +236,7 @@ $(document).ready(function() {
   }
 
   ////////////// EVENTS WHEN A CELL IS CLICKED ON ///////////////
+  if(modal.style.display == "none") {
 
     $("#cell1").click(function() {
       fillCell("#cell1");
@@ -265,5 +274,6 @@ $(document).ready(function() {
       fillCell("#cell9");
     });
 
+  }
 
 });
