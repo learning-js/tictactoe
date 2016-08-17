@@ -18,13 +18,13 @@ $(document).ready(function() {
       machine = "x";
     }
     modal.style.display = "none";
-    if(turns == 0){
       var startPositions = ["cell1", "cell3", "cell5", "cell7", "cell9"];
       var randomPlace = "#" + startPositions[Math.floor(Math.random() * startPositions.length)];
       $(randomPlace).html(machine);
       turns += 1;
       fillArray(randomPlace, machine);
-    }
+      xSign = true;
+      console.log(gameSigns);
   })
 
   ////////////////// FUNCTIONS ///////////////////
@@ -66,21 +66,12 @@ $(document).ready(function() {
   ////// fill the cell with its sign //////
   function fillCell(cell) {
     if(result == undefined) {
-
       if($.trim($(cell).html()) == "") {
-        if (xSign) {
           $(cell).html("x");
-          fillArray(cell, "x");
+          fillArray(cell, user);
           xSign = false;
-        }
-        else {
-          $(cell).html("o");
-          fillArray(cell, "o");
-          xSign = true;
-        }
       }
       checkGame();
-
     }
   }
 
@@ -244,44 +235,59 @@ $(document).ready(function() {
   }
 
   ////////////// EVENTS WHEN A CELL IS CLICKED ON ///////////////
-  if(turns !== 0) {
 
     $("#cell1").click(function() {
-      fillCell("#cell1");
+      if(xSign == true) {
+        fillCell("#cell1");
+      }
     });
 
     $("#cell2").click(function() {
-      fillCell("#cell2");
+      if(xSign == true) {
+        fillCell("#cell2");
+      }
     });
 
     $("#cell3").click(function() {
-      fillCell("#cell3");
+      if(xSign == true) {
+        fillCell("#cell3");
+      }
     });
 
     $("#cell4").click(function() {
-      fillCell("#cell4");
+      if(xSign == true) {
+        fillCell("#cell4");
+      }
     });
 
     $("#cell5").click(function() {
-      fillCell("#cell5");
+      if(xSign == true) {
+        fillCell("#cell5");
+      }
     });
 
     $("#cell6").click(function() {
-      fillCell("#cell6");
+      if(xSign == true) {
+        fillCell("#cell6");
+      }
     });
 
     $("#cell7").click(function() {
-      fillCell("#cell7");
+      if(xSign == true) {
+        fillCell("#cell7");
+      }
     });
 
     $("#cell8").click(function() {
-      fillCell("#cell8");
+      if(xSign == true) {
+        fillCell("#cell8");
+      }
     });
 
     $("#cell9").click(function() {
-      fillCell("#cell9");
+      if(xSign == true) {
+        fillCell("#cell9");
+      }
     });
-
-  }
 
 });
