@@ -6,8 +6,14 @@ $(document).ready(function() {
   var machine;
   var turns = 0;
 
+////////////////// MODAL ///////////////////
   var modal = document.getElementById('myModal');
   modal.style.display = "block";
+  $(".btn").click(function() {
+    user = $(this).attr("value");
+    console.log(user);
+    modal.style.display = "none";
+  })
 
   ////////////////// FUNCTIONS ///////////////////
 
