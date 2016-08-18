@@ -7,6 +7,7 @@ $(document).ready(function() {
   var turns = 0;
 
 ////////////////// MODAL ///////////////////
+
   var modal = document.getElementById('myModal');
   modal.style.display = "block";
   $(".btn").click(function() {
@@ -18,14 +19,85 @@ $(document).ready(function() {
       machine = "x";
     }
     modal.style.display = "none";
-      var startPositions = ["cell1", "cell3", "cell5", "cell7", "cell9"];
+
+    var startPositions = ["cell1", "cell3", "cell5", "cell7", "cell9"];
       var randomPlace = "#" + startPositions[Math.floor(Math.random() * startPositions.length)];
       $(randomPlace).html(machine);
       turns += 1;
       fillArray(randomPlace, machine);
       xSign = true;
-      console.log(gameSigns);
   })
+
+  function checkBoard() {
+    checkHorizBoard();
+  }
+
+  function checkHorizBoard() {
+    for(var i = 0; i < gameSigns.length; i++) {
+      var line = gameSigns[i];
+      if(line[0] == user && line[0] == line[1]) {
+        if(i == 0) {
+          $("#cell3").html(machine);
+          fillArray("#cell3", machine);
+          xSign = true;
+          break;
+        }
+        else if(i == 1) {
+          $("#cell6").html(machine);
+          fillArray("#cell6", machine);
+          xSign = true;
+          break;
+        }
+        else if(i == 2) {
+          $("#cell9").html(machine);
+          fillArray("#cell9", machine);
+          xSign = true;
+          break;
+        }
+
+      }
+      else if(line[0] == user && line[0] == line[2]) {
+        if(i == 0) {
+          $("#cell2").html(machine);
+          fillArray("#cell2", machine);
+          xSign = true;
+          break;
+        }
+        else if(i == 1) {
+          $("#cell5").html(machine);
+          fillArray("#cell5", machine);
+          xSign = true;
+          break;
+        }
+        else if(i == 2) {
+          $("#cell8").html(machine);
+          fillArray("#cell8", machine);
+          xSign = true;
+          break;
+        }
+      }
+      else if(line[1] == user && line[1] == line[2]) {
+        if(i == 0) {
+          $("#cell1").html(machine);
+          fillArray("#cell1", machine);
+          xSign = true;
+          break;
+        }
+        else if(i == 1) {
+          $("#cell4").html(machine);
+          fillArray("#cell4", machine);
+          xSign = true;
+          break;
+        }
+        else if(i == 2) {
+          $("#cell7").html(machine);
+          fillArray("#cell7", machine);
+          xSign = true;
+          break;
+        }
+      }
+    }
+  }
 
   ////////////////// FUNCTIONS ///////////////////
 
@@ -146,18 +218,23 @@ $(document).ready(function() {
   function checkGame() {
     if(horizontalInaRow() !== undefined) {
       result = horizontalInaRow();
+      highlightRow();
     }
     else {
       if(verticalInaRow() !== undefined) {
         result = verticalInaRow();
+        highlightRow();
       }
       else {
         if(diagonalInaRow() !== undefined) {
           result = diagonalInaRow();
+          highlightRow();
         }
       }
     }
-    highlightRow();
+    if(result == undefined) {
+      checkBoard();
+    }
   }
 
   ///// Highlight the row that finishes the game /////
