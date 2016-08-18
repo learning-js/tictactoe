@@ -30,11 +30,14 @@ $(document).ready(function() {
 
   function checkBoard() {
     checkHorizBoard();
+    checkVerticalBoard();
+    checkDiagonalBoard();
   }
 
   function checkHorizBoard() {
     for(var i = 0; i < gameSigns.length; i++) {
       var line = gameSigns[i];
+
       if(line[0] == user && line[0] == line[1]) {
         if(i == 0) {
           $("#cell3").html(machine);
@@ -54,7 +57,6 @@ $(document).ready(function() {
           xSign = true;
           break;
         }
-
       }
       else if(line[0] == user && line[0] == line[2]) {
         if(i == 0) {
@@ -95,6 +97,103 @@ $(document).ready(function() {
           xSign = true;
           break;
         }
+      }
+    }
+  }
+
+  function checkVerticalBoard() {
+    var line1 = [gameSigns[0][0], gameSigns[1][0], gameSigns[2][0]];
+    var line2 = [gameSigns[0][1], gameSigns[1][1], gameSigns[2][1]];
+    var line3 = [gameSigns[0][2], gameSigns[1][2], gameSigns[2][2]];
+    if(line1[0] == user || line1[1] == user || line1[2] == user) {
+      if(line1[0] == line1[1]){
+        $("#cell7").html(machine);
+        fillArray("#cell7", machine);
+        xSign = true;
+      }
+      else if(line1[0] == line1[2]) {
+        $("#cell4").html(machine);
+        fillArray("#cell4", machine);
+        xSign = true;
+      }
+      else if(line1[1] == line1[2]) {
+        $("#cell1").html(machine);
+        fillArray("#cell1", machine);
+        xSign = true;
+      }
+    }
+    if(line2[0] == user || line2[1] == user || line2[2] == user) {
+      if(line2[0] == line2[1]){
+        $("#cell8").html(machine);
+        fillArray("#cell8", machine);
+        xSign = true;
+      }
+      else if(line2[0] == line2[2]) {
+        $("#cell5").html(machine);
+        fillArray("#cell5", machine);
+        xSign = true;
+      }
+      else if(line2[1] == line2[2]) {
+        $("#cell2").html(machine);
+        fillArray("#cell2", machine);
+        xSign = true;
+      }
+    }
+    if(line3[0] == user || line3[1] == user || line3[2] == user) {
+      if(line3[0] == line3[1]){
+        $("#cell9").html(machine);
+        fillArray("#cell9", machine);
+        xSign = true;
+      }
+      else if(line3[0] == line3[2]) {
+        $("#cell6").html(machine);
+        fillArray("#cell6", machine);
+        xSign = true;
+      }
+      else if(line3[1] == line3[2]) {
+        $("#cell3").html(machine);
+        fillArray("#cell3", machine);
+        xSign = true;
+      }
+    }
+  }
+
+  function checkDiagonalBoard() {
+    var line1 = [gameSigns[0][0], gameSigns[1][1], gameSigns[2][2]];
+    var line2 = [gameSigns[0][2], gameSigns[1][1], gameSigns[2][0]];
+    if(line1[0] == user || line1[1] == user || line1[2] == user) {
+      if(line1[0] == line1[1]){
+        $("#cell9").html(machine);
+        fillArray("#cell9", machine);
+        xSign = true;
+      }
+      else if(line1[0] == line1[2]) {
+        $("#cell5").html(machine);
+        fillArray("#cell5", machine);
+        xSign = true;
+      }
+      else if(line1[1] == line1[2]) {
+        $("#cell1").html(machine);
+        fillArray("#cell1", machine);
+        xSign = true;
+      }
+    }
+
+    if(line2[0] == user || line2[1] == user || line2[2] == user) {
+      if(line2[0] == line2[1]){
+        $("#cell7").html(machine);
+        fillArray("#cell7", machine);
+        xSign = true;
+      }
+      else if(line2[0] == line2[2]) {
+        $("#cell5").html(machine);
+        fillArray("#cell5", machine);
+        xSign = true;
+      }
+      else if(line2[1] == line2[2]) {
+        $("#cell3").html(machine);
+        fillArray("#cell3", machine);
+        xSign = true;
       }
     }
   }
