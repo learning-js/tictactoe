@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  var xSign = false;
+  var humanPlayer = false;
   var gameSigns = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
   var result;
   var user;
@@ -25,13 +25,16 @@ $(document).ready(function() {
       $(randomPlace).html(machine);
       turns += 1;
       fillArray(randomPlace, machine);
-      xSign = true;
+      humanPlayer = true;
   })
 
   function checkBoard() {
     checkHorizBoard();
     checkVerticalBoard();
     checkDiagonalBoard();
+    if(humanPlayer == false) {
+      machineTurn();
+    }
   }
 
   function checkHorizBoard() {
@@ -42,19 +45,19 @@ $(document).ready(function() {
         if(i == 0) {
           $("#cell3").html(machine);
           fillArray("#cell3", machine);
-          xSign = true;
+          humanPlayer = true;
           break;
         }
         else if(i == 1) {
           $("#cell6").html(machine);
           fillArray("#cell6", machine);
-          xSign = true;
+          humanPlayer = true;
           break;
         }
         else if(i == 2) {
           $("#cell9").html(machine);
           fillArray("#cell9", machine);
-          xSign = true;
+          humanPlayer = true;
           break;
         }
       }
@@ -62,19 +65,19 @@ $(document).ready(function() {
         if(i == 0) {
           $("#cell2").html(machine);
           fillArray("#cell2", machine);
-          xSign = true;
+          humanPlayer = true;
           break;
         }
         else if(i == 1) {
           $("#cell5").html(machine);
           fillArray("#cell5", machine);
-          xSign = true;
+          humanPlayer = true;
           break;
         }
         else if(i == 2) {
           $("#cell8").html(machine);
           fillArray("#cell8", machine);
-          xSign = true;
+          humanPlayer = true;
           break;
         }
       }
@@ -82,19 +85,19 @@ $(document).ready(function() {
         if(i == 0) {
           $("#cell1").html(machine);
           fillArray("#cell1", machine);
-          xSign = true;
+          humanPlayer = true;
           break;
         }
         else if(i == 1) {
           $("#cell4").html(machine);
           fillArray("#cell4", machine);
-          xSign = true;
+          humanPlayer = true;
           break;
         }
         else if(i == 2) {
           $("#cell7").html(machine);
           fillArray("#cell7", machine);
-          xSign = true;
+          humanPlayer = true;
           break;
         }
       }
@@ -109,51 +112,51 @@ $(document).ready(function() {
       if(line1[0] == line1[1]){
         $("#cell7").html(machine);
         fillArray("#cell7", machine);
-        xSign = true;
+        humanPlayer = true;
       }
       else if(line1[0] == line1[2]) {
         $("#cell4").html(machine);
         fillArray("#cell4", machine);
-        xSign = true;
+        humanPlayer = true;
       }
       else if(line1[1] == line1[2]) {
         $("#cell1").html(machine);
         fillArray("#cell1", machine);
-        xSign = true;
+        humanPlayer = true;
       }
     }
     if(line2[0] == user || line2[1] == user || line2[2] == user) {
       if(line2[0] == line2[1]){
         $("#cell8").html(machine);
         fillArray("#cell8", machine);
-        xSign = true;
+        humanPlayer = true;
       }
       else if(line2[0] == line2[2]) {
         $("#cell5").html(machine);
         fillArray("#cell5", machine);
-        xSign = true;
+        humanPlayer = true;
       }
       else if(line2[1] == line2[2]) {
         $("#cell2").html(machine);
         fillArray("#cell2", machine);
-        xSign = true;
+        humanPlayer = true;
       }
     }
     if(line3[0] == user || line3[1] == user || line3[2] == user) {
       if(line3[0] == line3[1]){
         $("#cell9").html(machine);
         fillArray("#cell9", machine);
-        xSign = true;
+        humanPlayer = true;
       }
       else if(line3[0] == line3[2]) {
         $("#cell6").html(machine);
         fillArray("#cell6", machine);
-        xSign = true;
+        humanPlayer = true;
       }
       else if(line3[1] == line3[2]) {
         $("#cell3").html(machine);
         fillArray("#cell3", machine);
-        xSign = true;
+        humanPlayer = true;
       }
     }
   }
@@ -165,17 +168,17 @@ $(document).ready(function() {
       if(line1[0] == line1[1]){
         $("#cell9").html(machine);
         fillArray("#cell9", machine);
-        xSign = true;
+        humanPlayer = true;
       }
       else if(line1[0] == line1[2]) {
         $("#cell5").html(machine);
         fillArray("#cell5", machine);
-        xSign = true;
+        humanPlayer = true;
       }
       else if(line1[1] == line1[2]) {
         $("#cell1").html(machine);
         fillArray("#cell1", machine);
-        xSign = true;
+        humanPlayer = true;
       }
     }
 
@@ -183,17 +186,17 @@ $(document).ready(function() {
       if(line2[0] == line2[1]){
         $("#cell7").html(machine);
         fillArray("#cell7", machine);
-        xSign = true;
+        humanPlayer = true;
       }
       else if(line2[0] == line2[2]) {
         $("#cell5").html(machine);
         fillArray("#cell5", machine);
-        xSign = true;
+        humanPlayer = true;
       }
       else if(line2[1] == line2[2]) {
         $("#cell3").html(machine);
         fillArray("#cell3", machine);
-        xSign = true;
+        humanPlayer = true;
       }
     }
   }
@@ -240,7 +243,7 @@ $(document).ready(function() {
       if($.trim($(cell).html()) == "") {
           $(cell).html(user);
           fillArray(cell, user);
-          xSign = false;
+          humanPlayer = false;
       }
       checkGame();
     }
@@ -404,7 +407,7 @@ $(document).ready(function() {
 
   function resetGame() {
     $("#cell1, #cell2, #cell3, #cell4, #cell5, #cell6, #cell7, #cell8, #cell9").empty();
-    var xSign = false;
+    var humanPlayer = false;
     gameSigns = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
     result = undefined;
     $("#cell1, #cell2, #cell3, #cell4, #cell5, #cell6, #cell7, #cell8, #cell9").removeAttr("style");
@@ -413,55 +416,55 @@ $(document).ready(function() {
   ////////////// EVENTS WHEN A CELL IS CLICKED ON ///////////////
 
     $("#cell1").click(function() {
-      if(xSign == true) {
+      if(humanPlayer == true) {
         fillCell("#cell1");
       }
     });
 
     $("#cell2").click(function() {
-      if(xSign == true) {
+      if(humanPlayer == true) {
         fillCell("#cell2");
       }
     });
 
     $("#cell3").click(function() {
-      if(xSign == true) {
+      if(humanPlayer == true) {
         fillCell("#cell3");
       }
     });
 
     $("#cell4").click(function() {
-      if(xSign == true) {
+      if(humanPlayer == true) {
         fillCell("#cell4");
       }
     });
 
     $("#cell5").click(function() {
-      if(xSign == true) {
+      if(humanPlayer == true) {
         fillCell("#cell5");
       }
     });
 
     $("#cell6").click(function() {
-      if(xSign == true) {
+      if(humanPlayer == true) {
         fillCell("#cell6");
       }
     });
 
     $("#cell7").click(function() {
-      if(xSign == true) {
+      if(humanPlayer == true) {
         fillCell("#cell7");
       }
     });
 
     $("#cell8").click(function() {
-      if(xSign == true) {
+      if(humanPlayer == true) {
         fillCell("#cell8");
       }
     });
 
     $("#cell9").click(function() {
-      if(xSign == true) {
+      if(humanPlayer == true) {
         fillCell("#cell9");
       }
     });
