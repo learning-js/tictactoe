@@ -56,9 +56,9 @@ $(document).ready(function() {
   }
 
   function checkBoard() {
-    /*checkHorizBoard();
-    checkVerticalBoard();
-    checkDiagonalBoard();
+    /*chanceHorizontal();
+    chanceVertical();
+    chanceDiagonal();
     if(humanPlayer == false) {
       /*machineTurn();*/
     if(humanPlayer) {
@@ -70,168 +70,104 @@ $(document).ready(function() {
     }
   }
 
-  function checkHorizBoard() {
+  function chanceHorizontal() {
+    var chances = 0;
+
     for(var i = 0; i < gameSigns.length; i++) {
-      var line = gameSigns[i];
-
-      if(line[0] == user && line[0] == line[1]) {
-        if(i == 0) {
-          $("#cell3").html(machine);
-          fillArray("#cell3", machine);
-          humanPlayer = true;
-          break;
-        }
-        else if(i == 1) {
-          $("#cell6").html(machine);
-          fillArray("#cell6", machine);
-          humanPlayer = true;
-          break;
-        }
-        else if(i == 2) {
-          $("#cell9").html(machine);
-          fillArray("#cell9", machine);
-          humanPlayer = true;
-          break;
+      var playerCells = 0;
+      var machineCells = 0;
+      var emptyCells = 0;
+      for(var j = 0; j < gameSigns.length; j++) {
+        switch (gameSigns[i][j]) {
+          case user:
+            playerCells++;
+            break;
+          case machine:
+            machineCells++;
+            break;
+          default:
+            emptyCells++;
         }
       }
-      else if(line[0] == user && line[0] == line[2]) {
-        if(i == 0) {
-          $("#cell2").html(machine);
-          fillArray("#cell2", machine);
-          humanPlayer = true;
-          break;
-        }
-        else if(i == 1) {
-          $("#cell5").html(machine);
-          fillArray("#cell5", machine);
-          humanPlayer = true;
-          break;
-        }
-        else if(i == 2) {
-          $("#cell8").html(machine);
-          fillArray("#cell8", machine);
-          humanPlayer = true;
-          break;
-        }
-      }
-      else if(line[1] == user && line[1] == line[2]) {
-        if(i == 0) {
-          $("#cell1").html(machine);
-          fillArray("#cell1", machine);
-          humanPlayer = true;
-          break;
-        }
-        else if(i == 1) {
-          $("#cell4").html(machine);
-          fillArray("#cell4", machine);
-          humanPlayer = true;
-          break;
-        }
-        else if(i == 2) {
-          $("#cell7").html(machine);
-          fillArray("#cell7", machine);
-          humanPlayer = true;
-          break;
-        }
+      if(playerCells == 2 && emptyCells == 0) {
+        chances++;
       }
     }
+    console.log("Chances h: " + chances);
+    return chances;
   }
 
-  function checkVerticalBoard() {
-    var line1 = [gameSigns[0][0], gameSigns[1][0], gameSigns[2][0]];
-    var line2 = [gameSigns[0][1], gameSigns[1][1], gameSigns[2][1]];
-    var line3 = [gameSigns[0][2], gameSigns[1][2], gameSigns[2][2]];
-    if(line1[0] == user || line1[1] == user || line1[2] == user) {
-      if(line1[0] == line1[1]){
-        $("#cell7").html(machine);
-        fillArray("#cell7", machine);
-        humanPlayer = true;
+  function chanceVertical() {
+    var chances = 0;
+
+    for(var i = 0; i < gameSigns.length; i++) {
+      var playerCells = 0;
+      var machineCells = 0;
+      var emptyCells = 0;
+      for (var j = 0; j < gameSigns.length; j++) {
+        switch (gameSigns[j][i]) {
+          case user:
+            playerCells++;
+            break;
+          case machine:
+            machineCells++;
+            break;
+          default:
+            emptyCells++;
+        }
       }
-      else if(line1[0] == line1[2]) {
-        $("#cell4").html(machine);
-        fillArray("#cell4", machine);
-        humanPlayer = true;
-      }
-      else if(line1[1] == line1[2]) {
-        $("#cell1").html(machine);
-        fillArray("#cell1", machine);
-        humanPlayer = true;
-      }
-    }
-    if(line2[0] == user || line2[1] == user || line2[2] == user) {
-      if(line2[0] == line2[1]){
-        $("#cell8").html(machine);
-        fillArray("#cell8", machine);
-        humanPlayer = true;
-      }
-      else if(line2[0] == line2[2]) {
-        $("#cell5").html(machine);
-        fillArray("#cell5", machine);
-        humanPlayer = true;
-      }
-      else if(line2[1] == line2[2]) {
-        $("#cell2").html(machine);
-        fillArray("#cell2", machine);
-        humanPlayer = true;
+      if(playerCells == 2 && emptyCells == 0) {
+        chances++;
       }
     }
-    if(line3[0] == user || line3[1] == user || line3[2] == user) {
-      if(line3[0] == line3[1]){
-        $("#cell9").html(machine);
-        fillArray("#cell9", machine);
-        humanPlayer = true;
-      }
-      else if(line3[0] == line3[2]) {
-        $("#cell6").html(machine);
-        fillArray("#cell6", machine);
-        humanPlayer = true;
-      }
-      else if(line3[1] == line3[2]) {
-        $("#cell3").html(machine);
-        fillArray("#cell3", machine);
-        humanPlayer = true;
-      }
-    }
+    console.log("Chances v: " + chances);
+    return chances;
   }
 
-  function checkDiagonalBoard() {
-    var line1 = [gameSigns[0][0], gameSigns[1][1], gameSigns[2][2]];
-    var line2 = [gameSigns[0][2], gameSigns[1][1], gameSigns[2][0]];
-    if(line1[0] == user || line1[1] == user || line1[2] == user) {
-      if(line1[0] == line1[1]){
-        $("#cell9").html(machine);
-        fillArray("#cell9", machine);
-        humanPlayer = true;
+  function chanceDiagonal() {
+    var diagonal1 = [gameSigns[0][0], gameSigns[1][1], gameSigns[2][2]];
+    var diagonal2 = [gameSigns[0][2], gameSigns[1][1], gameSigns[2][0]];
+    var chances = 0;
+
+    var playerCells = 0;
+    var machineCells = 0;
+    var emptyCells = 0;
+    for(var i = 0; i < gameSigns.length; i++) {
+      switch (diagonal1[i]) {
+        case user:
+          playerCells++;
+          break;
+        case machine:
+          machineCells++;
+          break;
+        default:
+          emptyCells++;
       }
-      else if(line1[0] == line1[2]) {
-        $("#cell5").html(machine);
-        fillArray("#cell5", machine);
-        humanPlayer = true;
-      }
-      else if(line1[1] == line1[2]) {
-        $("#cell1").html(machine);
-        fillArray("#cell1", machine);
-        humanPlayer = true;
-      }
+    }
+    if(playerCells == 2 && emptyCells == 0) {
+      chances++;
     }
 
-    if(line2[0] == user || line2[1] == user || line2[2] == user) {
-      if(line2[0] == line2[1]){
-        $("#cell7").html(machine);
-        fillArray("#cell7", machine);
-        humanPlayer = true;
-      }
-      else if(line2[0] == line2[2]) {
-        $("#cell5").html(machine);
-        fillArray("#cell5", machine);
-        humanPlayer = true;
-      }
-      else if(line2[1] == line2[2]) {
-        $("#cell3").html(machine);
-        fillArray("#cell3", machine);
-        humanPlayer = true;
+    playerCells = 0;
+    machineCells = 0;
+    emptyCells = 0;
+    for(var i = 0; i < gameSigns.length; i++) {
+      switch (diagonal2[i]) {
+        case user:
+          playerCells++;
+          break;
+        case machine:
+          machineCells++;
+          break;
+        default:
+          emptyCells++;
       }
     }
+    if(playerCells == 2 && emptyCells == 0) {
+      chances++;
+    }
+    console.log("Chances d: " + chances);
+    return chances;
   }
 
   ////////////////// FUNCTIONS //////////////////
