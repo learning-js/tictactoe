@@ -6,6 +6,18 @@ $(document).ready(function() {
   var machine;
   var turns = 0;
 
+  var boardMap = {
+    "#cell1": {"x": 0, "y": 0},
+    "#cell2": {"x": 0, "y": 1},
+    "#cell3": {"x": 0, "y": 2},
+    "#cell4": {"x": 1, "y": 0},
+    "#cell5": {"x": 1, "y": 1},
+    "#cell6": {"x": 1, "y": 2},
+    "#cell7": {"x": 2, "y": 0},
+    "#cell8": {"x": 2, "y": 1},
+    "#cell9": {"x": 2, "y": 2}
+  };
+
 ////////////////// MODAL ///////////////////
 
   var modal = document.getElementById('myModal');
@@ -21,11 +33,11 @@ $(document).ready(function() {
     modal.style.display = "none";
 
     var startPositions = ["cell1", "cell3", "cell5", "cell7", "cell9"];
-      var randomPlace = "#" + startPositions[Math.floor(Math.random() * startPositions.length)];
-      $(randomPlace).html(machine);
-      turns += 1;
-      fillArray(randomPlace, machine);
-      humanPlayer = true;
+    var randomPlace = "#" + startPositions[Math.floor(Math.random() * startPositions.length)];
+    $(randomPlace).html(machine);
+    turns += 1;
+    fillArray(randomPlace, machine);
+    humanPlayer = true;
   })
 
   function checkBoard() {
@@ -201,40 +213,13 @@ $(document).ready(function() {
     }
   }
 
-  ////////////////// FUNCTIONS ///////////////////
-
+  ////////////////// FUNCTIONS //////////////////
 
   ////// Keep each sign in its place inside the array //////
   function fillArray(position, sign) {
-    switch(position) {
-      case "#cell1":
-        gameSigns[0][0] = sign;
-        break;
-      case "#cell2":
-        gameSigns[0][1] = sign;
-        break;
-      case "#cell3":
-        gameSigns[0][2] = sign;
-        break;
-      case "#cell4":
-        gameSigns[1][0] = sign;
-        break;
-      case "#cell5":
-        gameSigns[1][1] = sign;
-        break;
-      case "#cell6":
-        gameSigns[1][2] = sign;
-        break;
-      case "#cell7":
-        gameSigns[2][0] = sign;
-        break;
-      case "#cell8":
-        gameSigns[2][1] = sign;
-        break;
-      case "#cell9":
-        gameSigns[2][2] = sign;
-        break;
-    }
+    var x = boardMap[position]["x"];
+    var y = boardMap[position]["y"];
+    gameSigns[x][y] = sign;
   }
 
   ////// fill the cell with its sign //////
