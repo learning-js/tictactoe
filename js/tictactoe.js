@@ -33,7 +33,7 @@ $(document).ready(function() {
     checkVerticalBoard();
     checkDiagonalBoard();
     if(humanPlayer == false) {
-      machineTurn();
+      /*machineTurn();*/
     }
   }
 
@@ -415,57 +415,9 @@ $(document).ready(function() {
 
   ////////////// EVENTS WHEN A CELL IS CLICKED ON ///////////////
 
-    $("#cell1").click(function() {
+    $(".cell").click(function() {
       if(humanPlayer == true) {
-        fillCell("#cell1");
-      }
-    });
-
-    $("#cell2").click(function() {
-      if(humanPlayer == true) {
-        fillCell("#cell2");
-      }
-    });
-
-    $("#cell3").click(function() {
-      if(humanPlayer == true) {
-        fillCell("#cell3");
-      }
-    });
-
-    $("#cell4").click(function() {
-      if(humanPlayer == true) {
-        fillCell("#cell4");
-      }
-    });
-
-    $("#cell5").click(function() {
-      if(humanPlayer == true) {
-        fillCell("#cell5");
-      }
-    });
-
-    $("#cell6").click(function() {
-      if(humanPlayer == true) {
-        fillCell("#cell6");
-      }
-    });
-
-    $("#cell7").click(function() {
-      if(humanPlayer == true) {
-        fillCell("#cell7");
-      }
-    });
-
-    $("#cell8").click(function() {
-      if(humanPlayer == true) {
-        fillCell("#cell8");
-      }
-    });
-
-    $("#cell9").click(function() {
-      if(humanPlayer == true) {
-        fillCell("#cell9");
+        fillCell("#" + this.id);
       }
     });
 
