@@ -43,20 +43,30 @@ $(document).ready(function() {
     }
     modal.style.display = "none";
 
+    startGame();
+  });
+
+  function startGame() {
     var startPositions = ["cell1", "cell3", "cell5", "cell7", "cell9"];
     var randomPlace = "#" + startPositions[Math.floor(Math.random() * startPositions.length)];
     $(randomPlace).html(machine);
     turns += 1;
     fillArray(randomPlace, machine);
     humanPlayer = true;
-  })
+  }
 
   function checkBoard() {
-    checkHorizBoard();
+    /*checkHorizBoard();
     checkVerticalBoard();
     checkDiagonalBoard();
     if(humanPlayer == false) {
       /*machineTurn();*/
+    if(humanPlayer) {
+      console.log("juega humano");
+    }
+    else {
+      console.log("juega máquina");
+      humanPlayer = true;
     }
   }
 
@@ -235,7 +245,7 @@ $(document).ready(function() {
 
   ////// fill the cell with its sign //////
   function fillCell(cell) {
-    if(result == undefined) {
+    if(result == "nothing" || result == undefined) {
       if($.trim($(cell).html()) == "") {
           $(cell).html(user);
           fillArray(cell, user);
@@ -258,6 +268,7 @@ $(document).ready(function() {
         }
       }
     }
+    return "nothing";
   }
 
   ///// VERTICAL ///////
@@ -270,6 +281,7 @@ $(document).ready(function() {
         }
       }
     }
+    return "nothing";
   }
 
   ///// DIAGONAL ///////
@@ -284,30 +296,28 @@ $(document).ready(function() {
       console.log("hay un ganador en diagonal 1");
       return "d1";
     }
+    return "nothing";
   }
 
   ///// Check if a function returns a coincidence ///////
   function checkWinner() {
-
-  }
-
-  function checkWinner() {
     result = horizontalInaRow();
-    if(typeof result !== undefined) {
+    console.log("result vale " + result);
+    if(result !== "nothing") {
       console.log("ganador horizontal");
       highlightRow(result);
       return;
     }
 
     result = verticalInaRow();
-    if(typeof result !== undefined) {
+    if(result !== "nothing") {
       console.log("ganador horizontal");
       highlightRow(result);
       return;
     }
 
     result = diagonalInaRow();
-    if(typeof result !== undefined) {
+    if(result !== "nothing") {
       console.log("ganador horizontal");
       highlightRow(result);
       return;
@@ -330,16 +340,18 @@ $(document).ready(function() {
 
   function resetGame() {
     $("#cell1, #cell2, #cell3, #cell4, #cell5, #cell6, #cell7, #cell8, #cell9").empty();
-    var humanPlayer = false;
+    humanPlayer = false;
     gameSigns = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
     result = undefined;
     $("#cell1, #cell2, #cell3, #cell4, #cell5, #cell6, #cell7, #cell8, #cell9").removeAttr("style");
+    startGame();
   }
 
   ////////////// EVENTS WHEN A CELL IS CLICKED ON ///////////////
 
     $(".cell").click(function() {
       if(humanPlayer == true) {
+        console.log("vamos a pintar");
         fillCell("#" + this.id);
       }
     });
