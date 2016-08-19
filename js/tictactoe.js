@@ -18,6 +18,17 @@ $(document).ready(function() {
     "#cell9": {"x": 2, "y": 2}
   };
 
+  var highlightBoard = {
+    "h0": "#cell1,#cell2,#cell3",
+    "h1": "#cell4,#cell5,#cell6",
+    "h2": "#cell7,#cell8,#cell9",
+    "v0": "#cell1,#cell4,#cell7",
+    "v1": "#cell2,#cell5,#cell8",
+    "v2": "#cell3,#cell6,#cell9",
+    "d0": "#cell1,#cell5,#cell9",
+    "d1": "#cell3,#cell5,#cell7",
+  }
+
 ////////////////// MODAL ///////////////////
 
   var modal = document.getElementById('myModal');
@@ -230,7 +241,7 @@ $(document).ready(function() {
           fillArray(cell, user);
           humanPlayer = false;
       }
-      checkGame();
+      checkWinner();
     }
   }
 
@@ -242,7 +253,8 @@ $(document).ready(function() {
       if (gameSigns[i][0] !== 0) {
         rows = gameSigns[i];
         if (rows[0] == rows[1] && rows[0] == rows[2]) {
-          return i;
+          console.log("hay un ganador en fila " + i);
+          return "h" + i;
         }
       }
     }
@@ -250,83 +262,88 @@ $(document).ready(function() {
 
   ///// VERTICAL ///////
   function verticalInaRow() {
-    ////brujería de javascript o una adrianada
-    /*var rows = [];
     for(var i = 0; i < gameSigns.length; i++) {
-      for(var j = 0; j < gameSigns.length; j++) {
-        console.log("meto a rows: " + gameSigns[j][j]);
-        rows.push([gameSigns[j][i]]);
+      if(gameSigns[0][i] !== 0) {
+        if(gameSigns[0][i] == gameSigns[1][i] && gameSigns[0][i] == gameSigns[2][i]) {
+          console.log("hay un ganador en columna " + i);
+          return "v" + i;
+        }
       }
-      console.log("rows vale esto " + rows);
-      console.log(rows[0]==rows[1]);
-      console.log(rows[1]==rows[2]);
-      if(rows[0] === rows[1] && rows[0] === rows[2]) {
-        console.log("son iguales");
-        rows = [];
-        return i;
-      }
-      else {
-        rows = [];
-      }
-    }*/
+    }
+  }
+
+  /*function verticalInaRow() {
     var column1 = [gameSigns[0][0], gameSigns[1][0], gameSigns[2][0]];
     var column2 = [gameSigns[0][1], gameSigns[1][1], gameSigns[2][1]];
     var column3 = [gameSigns[0][2], gameSigns[1][2], gameSigns[2][2]];
     if(column1[0] !== 0 && column1[0] == column1[1] && column1[0] == column1[2]) {
       return 3;
     }
-    else {
-      if(column2[0] !== 0 && column2[0] == column2[1] && column2[0] == column2[2]) {
-        return 4;
-      }
-      else {
-        if(column3[0] !== 0 && column3[0] == column3[1] && column3[0] == column3[2]) {
-          return 5;
-        }
-      }
+    if(column2[0] !== 0 && column2[0] == column2[1] && column2[0] == column2[2]) {
+      return 4;
     }
-  }
+    if(column3[0] !== 0 && column3[0] == column3[1] && column3[0] == column3[2]) {
+      return 5;
+    }
+  }*/
 
   ///// DIAGONAL ///////
   function diagonalInaRow() {
     var diagonal1 = [gameSigns[0][0], gameSigns[1][1], gameSigns[2][2]];
     var diagonal2 = [gameSigns[0][2], gameSigns[1][1], gameSigns[2][0]];
     if(diagonal1[0] !== 0 && diagonal1[0] == diagonal1[1] && diagonal1[0] == diagonal1[2]) {
-      return 6;
+      console.log("hay un ganador en diagonal 0");
+      return "d0";
     }
-    else {
-      if(diagonal2[0] !== 0 && diagonal2[0] == diagonal2[1] && diagonal2[0] == diagonal2[2]){
-        return 7;
-      }
+    if(diagonal2[0] !== 0 && diagonal2[0] == diagonal2[1] && diagonal2[0] == diagonal2[2]){
+      console.log("hay un ganador en diagonal 1");
+      return "d1";
     }
   }
 
   ///// Check if a function returns a coincidence ///////
-  function checkGame() {
-    if(horizontalInaRow() !== undefined) {
-      result = horizontalInaRow();
-      highlightRow();
+  function checkWinner() {
+
+  }
+
+  function checkWinner() {
+    result = horizontalInaRow();
+    if(typeof result !== undefined) {
+      console.log("ganador horizontal");
+      highlightRow(result);
+      return;
     }
-    else {
-      if(verticalInaRow() !== undefined) {
-        result = verticalInaRow();
-        highlightRow();
-      }
-      else {
-        if(diagonalInaRow() !== undefined) {
-          result = diagonalInaRow();
-          highlightRow();
-        }
-      }
+
+    result = verticalInaRow();
+    if(typeof result !== undefined) {
+      console.log("ganador horizontal");
+      highlightRow(result);
+      return;
     }
-    if(result == undefined) {
-      checkBoard();
+
+    result = diagonalInaRow();
+    if(typeof result !== undefined) {
+      console.log("ganador horizontal");
+      highlightRow(result);
+      return;
     }
+    console.log("sigue el juego");
+    checkBoard();
   }
 
   ///// Highlight the row that finishes the game /////
+  function highlightRow(reference) {
+    var cells = highlightBoard[reference];
+    console.log("voy a pintar " + cells);
+    $(cells).css({
+      "background-color": "#F8F32B",
+      "color": "#3E505B",
+      "font-size": "5em"
+    });
+    setTimeout(resetGame, 2000);
+  }
 
-  function highlightRow() {
+  /*function highlightRow() {
     if(result !== undefined){
       switch(result) {
         case 0:
@@ -388,7 +405,7 @@ $(document).ready(function() {
       }
       setTimeout(resetGame, 2000);
     }
-  }
+  }*/
 
   function resetGame() {
     $("#cell1, #cell2, #cell3, #cell4, #cell5, #cell6, #cell7, #cell8, #cell9").empty();
