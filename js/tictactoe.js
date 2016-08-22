@@ -63,44 +63,43 @@ $(document).ready(function() {
   });
 
   function machineTurn() {
-    console.log("turno de la máquina antes de ver qué está vacío y cómo está el array: " + gameSigns);
     var startPositions = ["cell1", "cell3", "cell5", "cell7", "cell9"];
     for(var i = 0; i < startPositions.length; i++) {
       if($.trim($("#" + startPositions[i]).html()) !== "") {
+        console.log("celda llena: " + startPositions[i]);
         startPositions.splice(i, 1);
-        console.log("después de borrar los espacios que no están vacíos: " + startPositions);
       }
     }
+    console.log(startPositions);
+    console.log("antes: " + gameSigns.toString());
     var randomPlace = "#" + startPositions[Math.floor(Math.random() * startPositions.length)];
+    console.log("el sitio aleatorio que elige la máquina es: " + randomPlace);
     $(randomPlace).html(machine);
     fillArray(randomPlace, machine);
-    console.log("cómo está el array después del turno de la máquina: " + gameSigns);
     humanPlayer = true;
+    console.log("despues: " + gameSigns.toString());
   }
 
   function whoIsPlaying() {
-    console.log("whoIsPlaying()");
-    console.log(JSON.stringify(moves));
-    if(humanPlayer) {
-      console.log("juega humano");
-    }
-    else {
+    if(!humanPlayer) {
       console.log("juega máquina");
       if(moves["machine"].length > 0) {
         console.log("la máquina puede ganar");
+        var position = moves["machine"][0][0].toString() + moves["machine"][0][1].toString();
+        var celltoPaint = positionToPaint[position];
+        $(positionToPaint[position]).html(machine);
+        fillArray(celltoPaint, machine);
+        checkWinner();
+        return;
       }
       if(moves["user"].length > 0) {
         var position = moves["user"][0][0].toString() + moves["user"][0][1].toString();
-        console.log("romper 3 en raya del jugador en " + positionToPaint[position]);
-        console.log(gameSigns);
         var celltoPaint = positionToPaint[position];
         $(positionToPaint[position]).html(machine);
-        console.log(celltoPaint);
         fillArray(celltoPaint, machine);
         humanPlayer = true;
       }
       else{
-        console.log("la máquina elige lugar");
         machineTurn();
       }
     }
@@ -247,7 +246,6 @@ $(document).ready(function() {
 
   ////// Keep each sign in its place inside the array //////
   function fillArray(position, sign) {
-    console.log("fillArray()");
     var x = boardMap[position]["x"];
     var y = boardMap[position]["y"];
     gameSigns[x][y] = sign;
@@ -273,7 +271,6 @@ $(document).ready(function() {
       if (gameSigns[i][0] !== 0) {
         rows = gameSigns[i];
         if (rows[0] == rows[1] && rows[0] == rows[2]) {
-          console.log("hay un ganador en fila " + i);
           return "h" + i;
         }
       }
@@ -286,7 +283,6 @@ $(document).ready(function() {
     for(var i = 0; i < gameSigns.length; i++) {
       if(gameSigns[0][i] !== 0) {
         if(gameSigns[0][i] == gameSigns[1][i] && gameSigns[0][i] == gameSigns[2][i]) {
-          console.log("hay un ganador en columna " + i);
           return "v" + i;
         }
       }
@@ -299,11 +295,9 @@ $(document).ready(function() {
     var diagonal1 = [gameSigns[0][0], gameSigns[1][1], gameSigns[2][2]];
     var diagonal2 = [gameSigns[0][2], gameSigns[1][1], gameSigns[2][0]];
     if(diagonal1[0] !== 0 && diagonal1[0] == diagonal1[1] && diagonal1[0] == diagonal1[2]) {
-      console.log("hay un ganador en diagonal 0");
       return "d0";
     }
     if(diagonal2[0] !== 0 && diagonal2[0] == diagonal2[1] && diagonal2[0] == diagonal2[2]){
-      console.log("hay un ganador en diagonal 1");
       return "d1";
     }
     return "nothing";
@@ -312,34 +306,28 @@ $(document).ready(function() {
   ///// Check if a function returns a coincidence ///////
   function checkWinner() {
     result = horizontalInaRow();
-    console.log("result vale " + result);
     if(result !== "nothing") {
-      console.log("ganador horizontal");
       highlightRow(result);
       return;
     }
 
     result = verticalInaRow();
     if(result !== "nothing") {
-      console.log("ganador horizontal");
       highlightRow(result);
       return;
     }
 
     result = diagonalInaRow();
     if(result !== "nothing") {
-      console.log("ganador horizontal");
       highlightRow(result);
       return;
     }
-    console.log("sigue el juego");
     checkBoard();
   }
 
   ///// Highlight the row that finishes the game /////
   function highlightRow(reference) {
     var cells = highlightBoard[reference];
-    console.log("voy a pintar " + cells);
     $(cells).css({
       "background-color": "#F8F32B",
       "color": "#3E505B",
@@ -353,6 +341,8 @@ $(document).ready(function() {
     humanPlayer = false;
     gameSigns = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
     result = undefined;
+    moves["user"] = [];
+    moves["machine"] = [];
     $("#cell1, #cell2, #cell3, #cell4, #cell5, #cell6, #cell7, #cell8, #cell9").removeAttr("style");
     machineTurn();
   }
@@ -361,7 +351,6 @@ $(document).ready(function() {
 
     $(".cell").click(function() {
       if(humanPlayer) {
-        console.log("vamos a pintar");
         fillCell("#" + this.id);
       }
     });
