@@ -4,7 +4,6 @@ $(document).ready(function() {
   var result;
   var user;
   var machine;
-  var turns = 0;
 
   var boardMap = {
     "#cell1": {"x": 0, "y": 0},
@@ -17,6 +16,18 @@ $(document).ready(function() {
     "#cell8": {"x": 2, "y": 1},
     "#cell9": {"x": 2, "y": 2}
   };
+
+  var positionToPaint = {
+    "00": "#cell1",
+    "01": "#cell2",
+    "02": "#cell3",
+    "10": "#cell4",
+    "11": "#cell5",
+    "12": "#cell6",
+    "20": "#cell7",
+    "21": "#cell8",
+    "22": "#cell9"
+  }
 
   var highlightBoard = {
     "h0": "#cell1,#cell2,#cell3",
@@ -52,28 +63,56 @@ $(document).ready(function() {
   });
 
   function machineTurn() {
+    console.log("turno de la máquina antes de ver qué está vacío y cómo está el array: " + gameSigns);
     var startPositions = ["cell1", "cell3", "cell5", "cell7", "cell9"];
+    for(var i = 0; i < startPositions.length; i++) {
+      if($.trim($("#" + startPositions[i]).html()) !== "") {
+        startPositions.splice(i, 1);
+        console.log("después de borrar los espacios que no están vacíos: " + startPositions);
+      }
+    }
     var randomPlace = "#" + startPositions[Math.floor(Math.random() * startPositions.length)];
     $(randomPlace).html(machine);
-    turns += 1;
     fillArray(randomPlace, machine);
+    console.log("cómo está el array después del turno de la máquina: " + gameSigns);
     humanPlayer = true;
   }
 
-  function checkBoard() {
-    chanceHorizontal();
-    chanceVertical();
-    chanceDiagonal();
+  function whoIsPlaying() {
+    console.log("whoIsPlaying()");
     console.log(JSON.stringify(moves));
     if(humanPlayer) {
       console.log("juega humano");
     }
     else {
       console.log("juega máquina");
-      humanPlayer = true;
+      if(moves["machine"].length > 0) {
+        console.log("la máquina puede ganar");
+      }
+      if(moves["user"].length > 0) {
+        var position = moves["user"][0][0].toString() + moves["user"][0][1].toString();
+        console.log("romper 3 en raya del jugador en " + positionToPaint[position]);
+        console.log(gameSigns);
+        var celltoPaint = positionToPaint[position];
+        $(positionToPaint[position]).html(machine);
+        console.log(celltoPaint);
+        fillArray(celltoPaint, machine);
+        humanPlayer = true;
+      }
+      else{
+        console.log("la máquina elige lugar");
+        machineTurn();
+      }
     }
     moves["user"] = [];
     moves["machine"] = [];
+  }
+
+  function checkBoard() {
+    chanceHorizontal();
+    chanceVertical();
+    chanceDiagonal();
+    whoIsPlaying();
   }
 
   function chanceHorizontal() {
@@ -208,6 +247,7 @@ $(document).ready(function() {
 
   ////// Keep each sign in its place inside the array //////
   function fillArray(position, sign) {
+    console.log("fillArray()");
     var x = boardMap[position]["x"];
     var y = boardMap[position]["y"];
     gameSigns[x][y] = sign;
@@ -320,7 +360,7 @@ $(document).ready(function() {
   ////////////// EVENTS WHEN A CELL IS CLICKED ON ///////////////
 
     $(".cell").click(function() {
-      if(humanPlayer == true) {
+      if(humanPlayer) {
         console.log("vamos a pintar");
         fillCell("#" + this.id);
       }
