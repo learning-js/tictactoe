@@ -29,6 +29,11 @@ $(document).ready(function() {
     "d1": "#cell3,#cell5,#cell7",
   }
 
+  var moves = {
+    "user": [],
+    "machine": []
+  }
+
 ////////////////// MODAL ///////////////////
 
   var modal = document.getElementById('myModal');
@@ -56,11 +61,12 @@ $(document).ready(function() {
   }
 
   function checkBoard() {
-    /*chanceHorizontal();
+    chanceHorizontal();
     chanceVertical();
     chanceDiagonal();
-    if(humanPlayer == false) {
-      /*machineTurn();*/
+    console.log(JSON.stringify(moves));
+    //if(humanPlayer == false) {
+    //  machineTurn();
     if(humanPlayer) {
       console.log("juega humano");
     }
@@ -68,11 +74,11 @@ $(document).ready(function() {
       console.log("juega máquina");
       humanPlayer = true;
     }
+    moves["user"] = [];
+    moves["machine"] = [];
   }
 
   function chanceHorizontal() {
-    var chances = 0;
-
     for(var i = 0; i < gameSigns.length; i++) {
       var playerCells = 0;
       var machineCells = 0;
@@ -89,21 +95,21 @@ $(document).ready(function() {
             emptyCells++;
         }
       }
-      if(playerCells == 2 && emptyCells == 0) {
-        chances++;
+      if(playerCells == 2 && emptyCells == 1) {
+        moves["user"].push([i, gameSigns[i].indexOf(0)]);
+      }
+      if(machineCells == 2 && emptyCells == 1) {
+        moves["machine"].push([i, gameSigns[i].indexOf(0)]);
       }
     }
-    console.log("Chances h: " + chances);
-    return chances;
   }
 
   function chanceVertical() {
-    var chances = 0;
-
     for(var i = 0; i < gameSigns.length; i++) {
       var playerCells = 0;
       var machineCells = 0;
       var emptyCells = 0;
+      var coords = [];
       for (var j = 0; j < gameSigns.length; j++) {
         switch (gameSigns[j][i]) {
           case user:
@@ -114,20 +120,23 @@ $(document).ready(function() {
             break;
           default:
             emptyCells++;
+            coords.push([j,i]);
         }
       }
-      if(playerCells == 2 && emptyCells == 0) {
-        chances++;
+      if(playerCells == 2 && emptyCells == 1) {
+        moves["user"].push(coords[0]);
+      }
+      if(machineCells == 2 && emptyCells == 1) {
+        moves["machine"].push(coords[0]);
       }
     }
-    console.log("Chances v: " + chances);
-    return chances;
   }
 
+  // TODO: fix this
   function chanceDiagonal() {
     var diagonal1 = [gameSigns[0][0], gameSigns[1][1], gameSigns[2][2]];
     var diagonal2 = [gameSigns[0][2], gameSigns[1][1], gameSigns[2][0]];
-    var chances = 0;
+    var coords = [];
 
     var playerCells = 0;
     var machineCells = 0;
@@ -142,12 +151,27 @@ $(document).ready(function() {
           break;
         default:
           emptyCells++;
+          switch(i) {
+            case 0:
+              coords.push([0,0]);
+              break;
+            case 1:
+              coords.push([1,1]);
+              break;
+            case 2:
+              coords.push([2,2]);
+              break;
+          }
       }
     }
-    if(playerCells == 2 && emptyCells == 0) {
-      chances++;
+    if(playerCells == 2 && emptyCells == 1) {
+      moves["user"].push(coords[0]);
+    }
+    if(machineCells == 2 && emptyCells == 1) {
+      moves["machine"].push(coords[0]);
     }
 
+    coords = [];
     playerCells = 0;
     machineCells = 0;
     emptyCells = 0;
@@ -161,13 +185,25 @@ $(document).ready(function() {
           break;
         default:
           emptyCells++;
+          switch(i) {
+            case 0:
+              coords.push([0,2]);
+              break;
+            case 1:
+              coords.push([1,1]);
+              break;
+            case 2:
+              coords.push([2,0]);
+              break;
+          }
       }
     }
-    if(playerCells == 2 && emptyCells == 0) {
-      chances++;
+    if(playerCells == 2 && emptyCells == 1) {
+      moves["user"].push(coords[0]);
     }
-    console.log("Chances d: " + chances);
-    return chances;
+    if(machineCells == 2 && emptyCells == 1) {
+      moves["machine"].push(coords[0]);
+    }
   }
 
   ////////////////// FUNCTIONS //////////////////
@@ -183,9 +219,9 @@ $(document).ready(function() {
   function fillCell(cell) {
     if(result == "nothing" || result == undefined) {
       if($.trim($(cell).html()) == "") {
-          $(cell).html(user);
-          fillArray(cell, user);
-          humanPlayer = false;
+        $(cell).html(user);
+        fillArray(cell, user);
+        humanPlayer = false;
       }
       checkWinner();
     }
