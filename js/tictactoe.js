@@ -48,10 +48,10 @@ $(document).ready(function() {
     }
     modal.style.display = "none";
 
-    startGame();
+    machineTurn();
   });
 
-  function startGame() {
+  function machineTurn() {
     var startPositions = ["cell1", "cell3", "cell5", "cell7", "cell9"];
     var randomPlace = "#" + startPositions[Math.floor(Math.random() * startPositions.length)];
     $(randomPlace).html(machine);
@@ -65,8 +65,6 @@ $(document).ready(function() {
     chanceVertical();
     chanceDiagonal();
     console.log(JSON.stringify(moves));
-    //if(humanPlayer == false) {
-    //  machineTurn();
     if(humanPlayer) {
       console.log("juega humano");
     }
@@ -316,7 +314,7 @@ $(document).ready(function() {
     gameSigns = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
     result = undefined;
     $("#cell1, #cell2, #cell3, #cell4, #cell5, #cell6, #cell7, #cell8, #cell9").removeAttr("style");
-    startGame();
+    machineTurn();
   }
 
   ////////////// EVENTS WHEN A CELL IS CLICKED ON ///////////////
