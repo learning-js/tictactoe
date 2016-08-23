@@ -69,6 +69,7 @@ $(document).ready(function() {
       }
     }
     if(freePositions.length == 0) {
+      console.log("las esquinas y el centro están llenos");
       var otherPositions = ["cell2", "cell4", "cell6", "cell8"];
       for(var i = 0; i < otherPositions.length; i++) {
         if($.trim($("#" + otherPositions[i]).html()) == "") {
@@ -85,7 +86,7 @@ $(document).ready(function() {
       console.log("freePositions está vacío o tiene sólo uno: " + freePositions);
       $(randomPlace).html(machine);
       freePositions = [];
-      resetGame();
+      setTimeout(resetGame, 2000);
       return;
     }
     freePositions = [];
