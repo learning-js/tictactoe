@@ -46,7 +46,6 @@ $(document).ready(function() {
   }
 
 ////////////////// MODAL ///////////////////
-
   var modal = document.getElementById('myModal');
   modal.style.display = "block";
   $(".btn").click(function() {
@@ -58,33 +57,44 @@ $(document).ready(function() {
       machine = "x";
     }
     modal.style.display = "none";
-
     machineTurn();
   });
 
   function machineTurn() {
     var startPositions = ["cell1", "cell3", "cell5", "cell7", "cell9"];
+    var freePositions = [];
     for(var i = 0; i < startPositions.length; i++) {
-      if($.trim($("#" + startPositions[i]).html()) !== "") {
-        console.log("celda llena: " + startPositions[i]);
-        startPositions.splice(i, 1);
+      if($.trim($("#" + startPositions[i]).html()) == "") {
+        freePositions.push(startPositions[i]);
       }
     }
-    console.log(startPositions);
-    console.log("antes: " + gameSigns.toString());
-    var randomPlace = "#" + startPositions[Math.floor(Math.random() * startPositions.length)];
-    console.log("el sitio aleatorio que elige la máquina es: " + randomPlace);
+    if(freePositions.length == 0) {
+      var otherPositions = ["cell2", "cell4", "cell6", "cell8"];
+      for(var i = 0; i < otherPositions.length; i++) {
+        if($.trim($("#" + otherPositions[i]).html()) == "") {
+          freePositions.push(startPositions[i]);
+        }
+      }
+    }
+    console.log("freePositions vale " + freePositions);
+    var randomPlace = "#" + freePositions[Math.floor(Math.random() * freePositions.length)];
+    console.log("el sitio aleatorio que elige la máquina " + randomPlace);
     $(randomPlace).html(machine);
     fillArray(randomPlace, machine);
+    if(freePositions.length == 1) {
+      console.log("freePositions está vacío o tiene sólo uno: " + freePositions);
+      $(randomPlace).html(machine);
+      freePositions = [];
+      resetGame();
+      return;
+    }
+    freePositions = [];
     humanPlayer = true;
-    console.log("despues: " + gameSigns.toString());
   }
 
   function whoIsPlaying() {
     if(!humanPlayer) {
-      console.log("juega máquina");
       if(moves["machine"].length > 0) {
-        console.log("la máquina puede ganar");
         var position = moves["machine"][0][0].toString() + moves["machine"][0][1].toString();
         var celltoPaint = positionToPaint[position];
         $(positionToPaint[position]).html(machine);
@@ -248,8 +258,7 @@ $(document).ready(function() {
   function fillArray(position, sign) {
     var x = boardMap[position]["x"];
     var y = boardMap[position]["y"];
-    gameSigns[x][y] = sign;
-  }
+    gameSigns[x][y] = sign;  }
 
   ////// fill the cell with its sign //////
   function fillCell(cell) {
