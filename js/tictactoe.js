@@ -78,20 +78,22 @@ console.log("******************* EMPIEZA EL JUEGO *********************");
         }
       }
     }
-    var randomPlace = "#" + freePositions[Math.floor(Math.random() * freePositions.length)];
-    $(randomPlace).html(machine);
-    fillArray(randomPlace, machine);
-    if(freePositions.length == 1) {
+    if(freePositions.length > 1) {
+      var randomPlace = "#" + freePositions[Math.floor(Math.random() * freePositions.length)];
+      $(randomPlace).html(machine);
+      fillArray(randomPlace, machine);
+      humanPlayer = true;
+    }
+    else {
+      if(freePositions.length == 1) {
       $(randomPlace).html(machine);
       freePositions = [];
       setTimeout(resetGame, 2000);
+      }
+      else {
+        setTimeout(resetGame, 2000);
+      }
     }
-    if(freePositions == 0) {
-      setTimeout(resetGame, 2000);
-      return;
-    }
-    freePositions = [];
-    humanPlayer = true;
   }
 
   function whoIsPlaying() {
