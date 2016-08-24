@@ -46,6 +46,7 @@ $(document).ready(function() {
   }
 
 ////////////////// MODAL ///////////////////
+console.log("******************* EMPIEZA EL JUEGO *********************");
   var modal = document.getElementById('myModal');
   modal.style.display = "block";
   $(".btn").click(function() {
@@ -61,31 +62,31 @@ $(document).ready(function() {
   });
 
   function machineTurn() {
-    var startPositions = ["cell1", "cell3", "cell5", "cell7", "cell9"];
+    console.log("----------- empieza machineTurn()");
+    var cornersCenter = ["cell1", "cell3", "cell5", "cell7", "cell9"];
     var freePositions = [];
-    for(var i = 0; i < startPositions.length; i++) {
-      if($.trim($("#" + startPositions[i]).html()) == "") {
-        freePositions.push(startPositions[i]);
+    for(var i = 0; i < cornersCenter.length; i++) {
+      if($.trim($("#" + cornersCenter[i]).html()) == "") {
+        freePositions.push(cornersCenter[i]);
       }
     }
     if(freePositions.length == 0) {
-      console.log("las esquinas y el centro están llenos");
       var otherPositions = ["cell2", "cell4", "cell6", "cell8"];
       for(var i = 0; i < otherPositions.length; i++) {
         if($.trim($("#" + otherPositions[i]).html()) == "") {
-          freePositions.push(startPositions[i]);
+          freePositions.push(otherPositions[i]);
         }
       }
     }
-    console.log("freePositions vale " + freePositions);
     var randomPlace = "#" + freePositions[Math.floor(Math.random() * freePositions.length)];
-    console.log("el sitio aleatorio que elige la máquina " + randomPlace);
     $(randomPlace).html(machine);
     fillArray(randomPlace, machine);
     if(freePositions.length == 1) {
-      console.log("freePositions está vacío o tiene sólo uno: " + freePositions);
       $(randomPlace).html(machine);
       freePositions = [];
+      setTimeout(resetGame, 2000);
+    }
+    if(freePositions == 0) {
       setTimeout(resetGame, 2000);
       return;
     }
@@ -96,6 +97,7 @@ $(document).ready(function() {
   function whoIsPlaying() {
     if(!humanPlayer) {
       if(moves["machine"].length > 0) {
+        console.log("la máquina puede ganar");
         var position = moves["machine"][0][0].toString() + moves["machine"][0][1].toString();
         var celltoPaint = positionToPaint[position];
         $(positionToPaint[position]).html(machine);
@@ -104,6 +106,7 @@ $(document).ready(function() {
         return;
       }
       if(moves["user"].length > 0) {
+        console.log("el jugador puede ganar");
         var position = moves["user"][0][0].toString() + moves["user"][0][1].toString();
         var celltoPaint = positionToPaint[position];
         $(positionToPaint[position]).html(machine);
@@ -111,6 +114,7 @@ $(document).ready(function() {
         humanPlayer = true;
       }
       else{
+        console.log("no pueden ganar ni máquina ni jugador así que elige la máquina en machineTurn()");
         machineTurn();
       }
     }
@@ -354,6 +358,7 @@ $(document).ready(function() {
     moves["user"] = [];
     moves["machine"] = [];
     $("#cell1, #cell2, #cell3, #cell4, #cell5, #cell6, #cell7, #cell8, #cell9").removeAttr("style");
+    console.log("******************* EMPIEZA EL JUEGO OTRA VEZ *********************");
     machineTurn();
   }
 
