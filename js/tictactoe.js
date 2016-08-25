@@ -46,7 +46,6 @@ $(document).ready(function() {
   }
 
 ////////////////// MODAL ///////////////////
-console.log("******************* EMPIEZA EL JUEGO *********************");
   var modal = document.getElementById('myModal');
   modal.style.display = "block";
   $(".btn").click(function() {
@@ -62,15 +61,18 @@ console.log("******************* EMPIEZA EL JUEGO *********************");
   });
 
   function machineTurn() {
+    moves["user"] = [];
+    moves["machine"] = [];
+    chanceHorizontal();
+    chanceVertical();
+    chanceDiagonal();
     if(moves["machine"].length > 0) {
-      console.log("la máquina puede ganar");
       var position = moves["machine"][0][0].toString() + moves["machine"][0][1].toString();
       var celltoPaint = positionToPaint[position];
       $(positionToPaint[position]).html(machine);
       fillArray(celltoPaint, machine);
     }
     else if(moves["user"].length > 0) {
-      console.log("el jugador puede ganar");
       var position = moves["user"][0][0].toString() + moves["user"][0][1].toString();
       var celltoPaint = positionToPaint[position];
       $(positionToPaint[position]).html(machine);
@@ -96,91 +98,21 @@ console.log("******************* EMPIEZA EL JUEGO *********************");
       $(randomPlace).html(machine);
       fillArray(randomPlace, machine);
     }
-
-  }
-
-  function machineTurn() {
-    console.log("----------- empieza machineTurn()");
-    var cornersCenter = ["cell1", "cell3", "cell5", "cell7", "cell9"];
-    var freePositions = [];
-    for(var i = 0; i < cornersCenter.length; i++) {
-      if($.trim($("#" + cornersCenter[i]).html()) == "") {
-        freePositions.push(cornersCenter[i]);
-      }
-    }
-    if(freePositions.length == 0) {
-      var otherPositions = ["cell2", "cell4", "cell6", "cell8"];
-      for(var i = 0; i < otherPositions.length; i++) {
-        if($.trim($("#" + otherPositions[i]).html()) == "") {
-          freePositions.push(otherPositions[i]);
-        }
-      }
-    }
-    if(freePositions.length > 1) {
-      var randomPlace = "#" + freePositions[Math.floor(Math.random() * freePositions.length)];
-      $(randomPlace).html(machine);
-      fillArray(randomPlace, machine);
-      humanPlayer = true;
-    }
-    else {
-      if(freePositions.length == 1) {
-      $(randomPlace).html(machine);
-      freePositions = [];
+    checkWinner();
+    if(isTheBoardFull()){
       setTimeout(resetGame, 2000);
-      }
-      else {
-        setTimeout(resetGame, 2000);
-      }
     }
   }
+
   function isTheBoardFull() {
     for(var i = 0; i < gameProgress.length; i++) {
       for(var j = 0; j < gameProgress[i].length; j++) {
         if(gameProgress[i][j] == 0) {
-          return true;
+          return false;
         }
       }
     }
-  }
-
-  function machineDecides() {
-    if(!humanPlayer) {
-      if(moves["machine"].length > 0) {
-        console.log("la máquina puede ganar");
-        var position = moves["machine"][0][0].toString() + moves["machine"][0][1].toString();
-        var celltoPaint = positionToPaint[position];
-        $(positionToPaint[position]).html(machine);
-        fillArray(celltoPaint, machine);
-        checkWinner();
-        return;
-      }
-      if(moves["user"].length > 0) {
-        console.log("el jugador puede ganar");
-        var position = moves["user"][0][0].toString() + moves["user"][0][1].toString();
-        var celltoPaint = positionToPaint[position];
-        $(positionToPaint[position]).html(machine);
-        fillArray(celltoPaint, machine);
-        humanPlayer = true;
-        var checkFreeCells = isTheBoardFull();
-        console.log
-        if(checkFreeCells == undefined) {
-          setTimeout(resetGame, 2000);
-        }
-      }
-      else{
-        console.log("no pueden ganar ni máquina ni jugador así que elige la máquina en machineTurn()");
-        machineTurn();
-      }
-    }
-    moves["user"] = [];
-    moves["machine"] = [];
-  }
-
-  function checkBoard() {
-    chanceHorizontal();
-    chanceVertical();
-    chanceDiagonal();
-    machineDecides();
+    return true;
   }
 
   function chanceHorizontal() {
@@ -325,7 +257,6 @@ console.log("******************* EMPIEZA EL JUEGO *********************");
       if($.trim($(cell).html()) == "") {
         $(cell).html(user);
         fillArray(cell, user);
-        humanPlayer = false;
       }
       checkWinner();
     }
@@ -390,7 +321,17 @@ console.log("******************* EMPIEZA EL JUEGO *********************");
       highlightRow(result);
       return;
     }
-    checkBoard();
+    else {
+      if(humanPlayer) {
+        humanPlayer = false;
+        machineTurn();
+        return;
+      }
+      if(!humanPlayer) {
+        humanPlayer = true;
+        return;
+      }
+    }
   }
 
   ///// Highlight the row that finishes the game /////
@@ -412,7 +353,6 @@ console.log("******************* EMPIEZA EL JUEGO *********************");
     moves["user"] = [];
     moves["machine"] = [];
     $("#cell1, #cell2, #cell3, #cell4, #cell5, #cell6, #cell7, #cell8, #cell9").removeAttr("style");
-    console.log("******************* EMPIEZA EL JUEGO OTRA VEZ *********************");
     machineTurn();
   }
 
