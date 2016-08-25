@@ -1,6 +1,6 @@
 $(document).ready(function() {
   var humanPlayer = false;
-  var gameSigns = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+  var gameProgress = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
   var result;
   var user;
   var machine;
@@ -62,6 +62,44 @@ console.log("******************* EMPIEZA EL JUEGO *********************");
   });
 
   function machineTurn() {
+    if(moves["machine"].length > 0) {
+      console.log("la máquina puede ganar");
+      var position = moves["machine"][0][0].toString() + moves["machine"][0][1].toString();
+      var celltoPaint = positionToPaint[position];
+      $(positionToPaint[position]).html(machine);
+      fillArray(celltoPaint, machine);
+    }
+    else if(moves["user"].length > 0) {
+      console.log("el jugador puede ganar");
+      var position = moves["user"][0][0].toString() + moves["user"][0][1].toString();
+      var celltoPaint = positionToPaint[position];
+      $(positionToPaint[position]).html(machine);
+      fillArray(celltoPaint, machine);
+    }
+    else {
+      var cornersCenter = ["cell1", "cell3", "cell5", "cell7", "cell9"];
+      var freePositions = [];
+      for(var i = 0; i < cornersCenter.length; i++) {
+        if($.trim($("#" + cornersCenter[i]).html()) == "") {
+          freePositions.push(cornersCenter[i]);
+        }
+      }
+      if(freePositions.length == 0) {
+        var otherPositions = ["cell2", "cell4", "cell6", "cell8"];
+        for(var i = 0; i < otherPositions.length; i++) {
+          if($.trim($("#" + otherPositions[i]).html()) == "") {
+            freePositions.push(otherPositions[i]);
+          }
+        }
+      }
+      var randomPlace = "#" + freePositions[Math.floor(Math.random() * freePositions.length)];
+      $(randomPlace).html(machine);
+      fillArray(randomPlace, machine);
+    }
+
+  }
+
+  function machineTurn() {
     console.log("----------- empieza machineTurn()");
     var cornersCenter = ["cell1", "cell3", "cell5", "cell7", "cell9"];
     var freePositions = [];
@@ -95,8 +133,17 @@ console.log("******************* EMPIEZA EL JUEGO *********************");
       }
     }
   }
+  function isTheBoardFull() {
+    for(var i = 0; i < gameProgress.length; i++) {
+      for(var j = 0; j < gameProgress[i].length; j++) {
+        if(gameProgress[i][j] == 0) {
+          return true;
+        }
+      }
+    }
+  }
 
-  function whoIsPlaying() {
+  function machineDecides() {
     if(!humanPlayer) {
       if(moves["machine"].length > 0) {
         console.log("la máquina puede ganar");
@@ -114,6 +161,11 @@ console.log("******************* EMPIEZA EL JUEGO *********************");
         $(positionToPaint[position]).html(machine);
         fillArray(celltoPaint, machine);
         humanPlayer = true;
+        var checkFreeCells = isTheBoardFull();
+        console.log
+        if(checkFreeCells == undefined) {
+          setTimeout(resetGame, 2000);
+        }
       }
       else{
         console.log("no pueden ganar ni máquina ni jugador así que elige la máquina en machineTurn()");
@@ -128,16 +180,16 @@ console.log("******************* EMPIEZA EL JUEGO *********************");
     chanceHorizontal();
     chanceVertical();
     chanceDiagonal();
-    whoIsPlaying();
+    machineDecides();
   }
 
   function chanceHorizontal() {
-    for(var i = 0; i < gameSigns.length; i++) {
+    for(var i = 0; i < gameProgress.length; i++) {
       var playerCells = 0;
       var machineCells = 0;
       var emptyCells = 0;
-      for(var j = 0; j < gameSigns.length; j++) {
-        switch (gameSigns[i][j]) {
+      for(var j = 0; j < gameProgress.length; j++) {
+        switch (gameProgress[i][j]) {
           case user:
             playerCells++;
             break;
@@ -149,22 +201,22 @@ console.log("******************* EMPIEZA EL JUEGO *********************");
         }
       }
       if(playerCells == 2 && emptyCells == 1) {
-        moves["user"].push([i, gameSigns[i].indexOf(0)]);
+        moves["user"].push([i, gameProgress[i].indexOf(0)]);
       }
       if(machineCells == 2 && emptyCells == 1) {
-        moves["machine"].push([i, gameSigns[i].indexOf(0)]);
+        moves["machine"].push([i, gameProgress[i].indexOf(0)]);
       }
     }
   }
 
   function chanceVertical() {
-    for(var i = 0; i < gameSigns.length; i++) {
+    for(var i = 0; i < gameProgress.length; i++) {
       var playerCells = 0;
       var machineCells = 0;
       var emptyCells = 0;
       var coords = [];
-      for (var j = 0; j < gameSigns.length; j++) {
-        switch (gameSigns[j][i]) {
+      for (var j = 0; j < gameProgress.length; j++) {
+        switch (gameProgress[j][i]) {
           case user:
             playerCells++;
             break;
@@ -187,14 +239,14 @@ console.log("******************* EMPIEZA EL JUEGO *********************");
 
   // TODO: fix this
   function chanceDiagonal() {
-    var diagonal1 = [gameSigns[0][0], gameSigns[1][1], gameSigns[2][2]];
-    var diagonal2 = [gameSigns[0][2], gameSigns[1][1], gameSigns[2][0]];
+    var diagonal1 = [gameProgress[0][0], gameProgress[1][1], gameProgress[2][2]];
+    var diagonal2 = [gameProgress[0][2], gameProgress[1][1], gameProgress[2][0]];
     var coords = [];
 
     var playerCells = 0;
     var machineCells = 0;
     var emptyCells = 0;
-    for(var i = 0; i < gameSigns.length; i++) {
+    for(var i = 0; i < gameProgress.length; i++) {
       switch (diagonal1[i]) {
         case user:
           playerCells++;
@@ -228,7 +280,7 @@ console.log("******************* EMPIEZA EL JUEGO *********************");
     playerCells = 0;
     machineCells = 0;
     emptyCells = 0;
-    for(var i = 0; i < gameSigns.length; i++) {
+    for(var i = 0; i < gameProgress.length; i++) {
       switch (diagonal2[i]) {
         case user:
           playerCells++;
@@ -265,7 +317,7 @@ console.log("******************* EMPIEZA EL JUEGO *********************");
   function fillArray(position, sign) {
     var x = boardMap[position]["x"];
     var y = boardMap[position]["y"];
-    gameSigns[x][y] = sign;  }
+    gameProgress[x][y] = sign;  }
 
   ////// fill the cell with its sign //////
   function fillCell(cell) {
@@ -283,9 +335,9 @@ console.log("******************* EMPIEZA EL JUEGO *********************");
   ///// HORIZONTAL ///////
   function horizontalInaRow() {
     var rows;
-    for(var i = 0; i < gameSigns.length; i++) {
-      if (gameSigns[i][0] !== 0) {
-        rows = gameSigns[i];
+    for(var i = 0; i < gameProgress.length; i++) {
+      if (gameProgress[i][0] !== 0) {
+        rows = gameProgress[i];
         if (rows[0] == rows[1] && rows[0] == rows[2]) {
           return "h" + i;
         }
@@ -296,9 +348,9 @@ console.log("******************* EMPIEZA EL JUEGO *********************");
 
   ///// VERTICAL ///////
   function verticalInaRow() {
-    for(var i = 0; i < gameSigns.length; i++) {
-      if(gameSigns[0][i] !== 0) {
-        if(gameSigns[0][i] == gameSigns[1][i] && gameSigns[0][i] == gameSigns[2][i]) {
+    for(var i = 0; i < gameProgress.length; i++) {
+      if(gameProgress[0][i] !== 0) {
+        if(gameProgress[0][i] == gameProgress[1][i] && gameProgress[0][i] == gameProgress[2][i]) {
           return "v" + i;
         }
       }
@@ -308,8 +360,8 @@ console.log("******************* EMPIEZA EL JUEGO *********************");
 
   ///// DIAGONAL ///////
   function diagonalInaRow() {
-    var diagonal1 = [gameSigns[0][0], gameSigns[1][1], gameSigns[2][2]];
-    var diagonal2 = [gameSigns[0][2], gameSigns[1][1], gameSigns[2][0]];
+    var diagonal1 = [gameProgress[0][0], gameProgress[1][1], gameProgress[2][2]];
+    var diagonal2 = [gameProgress[0][2], gameProgress[1][1], gameProgress[2][0]];
     if(diagonal1[0] !== 0 && diagonal1[0] == diagonal1[1] && diagonal1[0] == diagonal1[2]) {
       return "d0";
     }
@@ -355,7 +407,7 @@ console.log("******************* EMPIEZA EL JUEGO *********************");
   function resetGame() {
     $("#cell1, #cell2, #cell3, #cell4, #cell5, #cell6, #cell7, #cell8, #cell9").empty();
     humanPlayer = false;
-    gameSigns = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+    gameProgress = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
     result = undefined;
     moves["user"] = [];
     moves["machine"] = [];
